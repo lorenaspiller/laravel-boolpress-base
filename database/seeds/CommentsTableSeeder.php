@@ -27,6 +27,7 @@ class CommentsTableSeeder extends Seeder
                 $newComment = new Comment();
 
                 $newComment->post_id = $post->id;
+                // se la colonna è nullable non aggiungo il nome
                 if (rand(0, 1)) {
                     $newComment->name = $faker->name();
                 }
