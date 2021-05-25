@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -39,13 +40,6 @@ class PostController extends Controller
     {   
         $data = $request->all();
 
-        //passo true e false alla checkbox 
-        if ( !isset( $data['published'] ) ) {
-            $data['published'] = false;
-        } else {
-            $data['published'] = true;
-        }
-
         //validazione 
         $request->validate([
             'title'=> 'required|string|max:255',
@@ -54,11 +48,21 @@ class PostController extends Controller
             'image' => 'nullable|url'
         ]);
 
-        //inserisco con il mass assignment i dati presi dalla create
+        //passo true e false alla checkbox 
+        if (!isset($data['published'])) {
+            $data['published'] = false;
+        } else {
+            $data['published'] = true;
+        }
+
+        // salvo lo slug prima di fare l'assegnazione
+        $data['slug'] = Str::slug($data['title'], '-');
+
+
+        // mass assignment
         Post::create($data);
 
-        //redirect a indexes
-
+        //redirect a index
         return redirect()->route('admin.posts.index');
     }
 
