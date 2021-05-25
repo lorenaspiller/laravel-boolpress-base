@@ -36,8 +36,30 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $data = $request->all();
+
+        //passo true e false alla checkbox 
+        if ( !isset( $data['published'] ) ) {
+            $data['published'] = false;
+        } else {
+            $data['published'] = true;
+        }
+
+        //validazione 
+        $request->validate([
+            'title'=> 'required|string|max:255',
+            'date'=> 'required|date',
+            'content' => 'required|string' ,
+            'image' => 'nullable|url'
+        ]);
+
+        //inserisco con il mass assignment i dati presi dalla create
+        Post::create($data);
+
+        //redirect a indexes
+
+        return redirect()->route('admin.posts.index');
     }
 
     /**
