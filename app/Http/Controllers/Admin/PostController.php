@@ -43,18 +43,14 @@ class PostController extends Controller
 
         //validazione 
         $request->validate([
-            'title'=> 'required|string|max:255',
+            'title'=> 'required|string|max:255|unique:posts',
             'date'=> 'required|date',
             'content' => 'required|string' ,
             'image' => 'nullable|url'
         ]);
 
         //passo true e false alla checkbox 
-        if (!isset($data['published'])) {
-            $data['published'] = false;
-        } else {
-            $data['published'] = true;
-        }
+        $data['published'] = !isset($data['published']) ? 0 : 1;
 
         // salvo lo slug prima di fare l'assegnazione
         $data['slug'] = Str::slug($data['title'], '-');
