@@ -1,3 +1,3 @@
 require('./bootstrap');
 
-alert('ciao');
+
