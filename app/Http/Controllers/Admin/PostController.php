@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\Tag;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
@@ -34,8 +35,11 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('admin.posts.create');
+    {   
+        //mi passo i tags dal model
+        $tags = Tag::all();
+
+        return view('admin.posts.create', compact('tags'));
     }
 
     /**
@@ -62,7 +66,10 @@ class PostController extends Controller
 
 
         // mass assignment
-        Post::create($data);
+        $newPost = Post::create($data);
+
+        //aggiungo i tags con attach()
+        $newPost->tags()->attach($data['tags']);
 
         //redirect a index
         return redirect()->route('admin.posts.index');
@@ -86,8 +93,10 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
-    {
-        return view('admin.posts.edit', compact('post'));
+    {   
+        $tags = Tag::all();
+
+        return view('admin.posts.edit', compact('post', 'tags'));
     }
 
     /**
@@ -114,8 +123,11 @@ class PostController extends Controller
         $data['slug'] = Str::slug($data['title'], '-');
 
 
-        // update
+        // faccio update
         $post->update($data);
+
+        //aggiorno i tags con il sync()
+        $post->tags()->sync($data['tags']);
 
         //return show
         return redirect()->route('admin.posts.show', $post);
@@ -128,7 +140,10 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Post $post)
-    {
+    {   
+        //cancello i tags correlati ai post in tabella pivot con il detach()
+        $post->tags()->detach();
+
         $post->delete();
 
         // redirect + toast 

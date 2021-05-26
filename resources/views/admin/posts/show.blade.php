@@ -7,12 +7,17 @@
 @section('content')
 	<p><strong>data:</strong> {{$post->date}}</p>
 	<p><strong>stato:</strong> {{$post->published ? 'pubblicato' : 'non pubblicato'}}</p>
-	 <div><strong>tags: </strong>
-		{{-- @foreach ($post->tags as $tag)
-			<span class="badge badge-primary">{{$tag->name}}</span>
-		@endforeach  --}}
-	</div> --}}
+
+	@foreach ($post->tags as $tag)
+		@if ($post->tags)
+			<div><strong>tags: </strong>
+				<span class="badge badge-primary">{{$tag->name}}</span>
+			</div>		
+		@endif
+	@endforeach
+
 	<hr>
+
 	<p>{{$post->content}}</p>
 	
 	@if ($post->comments->isNotEmpty())
