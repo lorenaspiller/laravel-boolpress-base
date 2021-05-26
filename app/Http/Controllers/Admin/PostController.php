@@ -8,7 +8,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
-{
+{   
+    // validation array
+    protected $validation = [
+        'date' => 'required|date',
+        'content' => 'required|string',
+        'image' => 'nullable|url'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -39,15 +46,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {   
-        $data = $request->all();
-
+        $validation = $this->validation;
+        $validation['title'] = 'required|string|max:255|unique:posts';
+        
         //validazione 
-        $request->validate([
-            'title'=> 'required|string|max:255|unique:posts',
-            'date'=> 'required|date',
-            'content' => 'required|string' ,
-            'image' => 'nullable|url'
-        ]);
+        $request->validate($this->validation);
+        
+        $data = $request->all();
 
         //passo true e false alla checkbox 
         $data['published'] = !isset($data['published']) ? 0 : 1;
@@ -80,9 +85,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -92,9 +97,28 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $validation = $this->validation;
+        $validation['title'] = 'required|string|max:255|unique:posts';
+
+        //validazione 
+        $request->validate($this->validation);
+
+        $data = $request->all();
+
+        //passo true e false alla checkbox 
+        $data['published'] = !isset($data['published']) ? 0 : 1;
+
+        // salvo lo slug prima di fare l'assegnazione
+        $data['slug'] = Str::slug($data['title'], '-');
+
+
+        // update
+        $post->update($data);
+
+        //return show
+        return redirect()->route('admin.posts.show', $post);
     }
 
     /**
