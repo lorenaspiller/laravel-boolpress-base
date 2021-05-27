@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'BlogController@index');
+Route::get('/', 'BlogController@index')->name('guest.posts.index');
 // rotta della show
 Route::get('posts/{slug}', 'BlogController@show')->name('guest.posts.show');
+//rotta per la view che mi da i post filtrati per tag
+Route::get('tags/{slug}', 'BlogController@filterTag')->name('guest.posts.filter-tag');
+// rotta per postare commenti
 Route::post('posts/{post}/add-comment', 'BlogController@addComment')->name('guest.posts.add-comment');
 
 
@@ -24,3 +27,4 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
     Route::resource('posts', 'PostController');
     Route::delete('comments/{comment}', 'CommentController@destroy')->name('comments.destroy');
 });
+

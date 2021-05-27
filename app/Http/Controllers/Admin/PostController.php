@@ -115,7 +115,7 @@ class PostController extends Controller
         $validation['title'] = 'required|string|max:255|unique:posts';
 
         //validazione 
-        $request->validate($this->validation);
+        $request->validate($validation);
 
         $data = $request->all();
 
