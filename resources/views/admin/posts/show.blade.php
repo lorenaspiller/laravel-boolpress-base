@@ -8,7 +8,7 @@
 	<p><strong>data:</strong> {{$post->date}}</p>
 	<p><strong>stato:</strong> {{$post->published ? 'pubblicato' : 'non pubblicato'}}</p>
 
-	@if ($post->tags)
+	@if ($post->tags->isNotEmpty())
 		<div><strong>tags: </strong>
 			@foreach ($post->tags as $tag)
 				<span class="badge badge-primary">{{$tag->name}}</span>
