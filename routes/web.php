@@ -22,4 +22,5 @@ Route::post('posts/{post}/add-comment', 'BlogController@addComment')->name('gues
 Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
     // rotte all'interno di questo gruppo admin
     Route::resource('posts', 'PostController');
+    Route::delete('comments/{comment}', 'CommentController@destroy')->name('comments.destroy');
 });
