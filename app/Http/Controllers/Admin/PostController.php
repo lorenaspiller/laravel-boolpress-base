@@ -54,7 +54,7 @@ class PostController extends Controller
         $validation['title'] = 'required|string|max:255|unique:posts';
         
         //validazione 
-        $request->validate($this->validation);
+        $request->validate($validation);
         
         $data = $request->all();
 
@@ -141,9 +141,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {   
-        //cancello i tags correlati ai post in tabella pivot con il detach()
-        $post->tags()->detach();
-
         $post->delete();
 
         // redirect + toast 
