@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'BlogController@index');
 // rotta della show
 Route::get('posts/{slug}', 'BlogController@show')->name('guest.posts.show');
+Route::post('posts/{post}/add-comment', 'BlogController@addComment')->name('guest.posts.add-comment');
+
 
 Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
     // rotte all'interno di questo gruppo admin
