@@ -8,13 +8,13 @@
 	<p><strong>data:</strong> {{$post->date}}</p>
 	<p><strong>stato:</strong> {{$post->published ? 'pubblicato' : 'non pubblicato'}}</p>
 
-	@foreach ($post->tags as $tag)
-		@if ($post->tags)
-			<div><strong>tags: </strong>
+	@if ($post->tags)
+		<div><strong>tags: </strong>
+			@foreach ($post->tags as $tag)
 				<span class="badge badge-primary">{{$tag->name}}</span>
-			</div>		
-		@endif
-	@endforeach
+			@endforeach
+		</div>		
+	@endif
 
 	<hr>
 
