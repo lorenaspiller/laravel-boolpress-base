@@ -68,8 +68,11 @@ class PostController extends Controller
         // mass assignment
         $newPost = Post::create($data);
 
-        //aggiungo i tags con attach()
-        $newPost->tags()->attach($data['tags']);
+        //aggiungo i tags con attach() 
+        if (isset($data['tags'])) {
+            $newPost->tags()->attach($data['tags']);
+        }
+        
 
         //redirect a index
         return redirect()->route('admin.posts.index');
@@ -127,6 +130,9 @@ class PostController extends Controller
         $post->update($data);
 
         //aggiorno i tags con il sync()
+        if (!isset($data['tags'])) {
+            $data['tags'] = [];
+        }
         $post->tags()->sync($data['tags']);
 
         //return show
