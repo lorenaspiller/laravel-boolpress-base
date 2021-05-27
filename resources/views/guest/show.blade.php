@@ -42,7 +42,7 @@
 			</div>
 			<div class="form-group">
 				<label for="content">Commento</label>
-				<textarea class="form-control"  name="content" id="content" cols="30" rows="4" placeholder="Scrivi un commento"></textarea>
+				<textarea class="form-control @error('content') is-invalid @enderror" name="content" id="content" cols="30" rows="4" placeholder="Scrivi un commento"></textarea>
 			</div>
 			<div class="mt-3">
 				<button type="submit" class="btn btn-primary">Inserisci</button>

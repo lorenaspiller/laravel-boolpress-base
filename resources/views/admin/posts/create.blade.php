@@ -21,15 +21,15 @@
 	@method('POST')
 	<div class="form-group">
 		<label for="title">Titolo</label>
-		<input type="text" class="form-control" id="title" name="title" placeholder="Title">
+		<input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Title">
 	</div>
 	<div class="form-group">
 		<label for="date">Data</label>
-		<input type="date" class="form-control" id="date" name="date" placeholder="Date">
+		<input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" placeholder="Date">
 	</div>
 	<div class="form-group">
 		<label for="content">Contenuto</label>
-		<textarea class="form-control"  name="content" id="content" cols="30" rows="10" placeholder="content"></textarea>
+		<textarea class="form-control @error('content') is-invalid @enderror"  name="content" id="content" cols="30" rows="10" placeholder="content"></textarea>
 	</div>
 	<div class="form-group">
 		<label for="image">Immagine</label>
