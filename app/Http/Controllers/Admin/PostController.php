@@ -15,7 +15,7 @@ class PostController extends Controller
     protected $validation = [
         'date' => 'required|date',
         'content' => 'required|string',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048'
     ];
 
     /**
