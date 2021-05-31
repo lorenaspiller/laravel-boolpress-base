@@ -22,14 +22,14 @@
 	<tbody>
 	@foreach ($posts as $post)
 		<tr>
-			<td><img src="{{$post->image ? $post->image : 'https://via.placeholder.com/200'}}" alt="{{$post->title}}" style="width: 100px"></td>
+			<td><img src="{{$post->image ? asset('storage/' . $post->image) : 'https://via.placeholder.com/200'}}" alt="{{$post->title}}" style="width: 100px"></td>
 			<td>{{$post->title}}</td>
 			<td>{{$post->date}}</td>
 			<td>{!! $post->published ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>'!!}</td>
 			<td>
 				<a href="{{route('admin.posts.show', [ 'post' => $post->id ])}}"><button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button></a>
 				<a href="{{route('admin.posts.edit', [ 'post' => $post->id ])}}"><button type="button" class="btn btn-success"><i class="fas fa-pencil-alt"></i></button></a>
-				<form action="{{route('admin.posts.destroy', [ 'post' => $post->id ])}}" method="POST">
+				<form action="{{route('admin.posts.destroy', [ 'post' => $post->id ])}}" method="POST" class="d-inline">
 					@csrf
 					@method('DELETE')
 					<button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>

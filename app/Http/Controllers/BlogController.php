@@ -66,6 +66,7 @@ class BlogController extends Controller
             abort(404);
         }
 
+        // prendo tutti i post che sono pubblicati e hanno quel tag
         $posts = $tag->posts()->where('published', 1)->get();
 
         return view('guest.index', compact('posts', 'tags'));
