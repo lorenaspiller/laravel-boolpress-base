@@ -118,7 +118,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $validation = $this->validation;
-        $validation['title'] = 'required|string|max:255|unique:posts';
+        $validation['title'] = 'required|string|max:255|unique:posts,title,' . $post->id;
 
         //validazione 
         $request->validate($validation);
@@ -130,6 +130,11 @@ class PostController extends Controller
 
         // salvo lo slug prima di fare l'assegnazione
         $data['slug'] = Str::slug($data['title'], '-');
+
+        // upload file image
+        if (isset($data['image'])) {
+            $data['image'] = Storage::disk('public')->put('images', $data['image']);
+        }
 
 
         // faccio update
