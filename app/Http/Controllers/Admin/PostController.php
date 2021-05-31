@@ -8,6 +8,8 @@ use App\Tag;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PostMail;
 
 class PostController extends Controller
 {   
@@ -49,7 +51,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Post $post)
     {   
         $validation = $this->validation;
         $validation['title'] = 'required|string|max:255|unique:posts';
@@ -78,10 +80,13 @@ class PostController extends Controller
         if (isset($data['tags'])) {
             $newPost->tags()->attach($data['tags']);
         }
+
+        //invio la mails
+        Mail::to('mail@mail.it')->send(new PostMail($post));
         
 
         //redirect a index
-        return redirect()->route('admin.posts.index');
+        return redirect()->route('admin.posts.index', compact('post'));
     }
 
     /**
